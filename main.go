@@ -46,5 +46,13 @@ func reveseString(s string) string {
 	return string(res)
 }
 
+func getSubIntAbs(a, b int) int {
+	if a < b {
+		return b - a
+	} else {
+		return a - b
+	}
+}
+
 func main() {
 }

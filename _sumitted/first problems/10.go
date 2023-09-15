@@ -47,35 +47,31 @@ func reveseString(s string) string {
 	return string(res)
 }
 
-func main() {
-	candidate := []string{"dream", "dreamer", "erase", "eraser"}
-	for i := 0; i < 4; i++ {
-		candidate[i] = reveseString(candidate[i])
-	}
-
-	s.Scan()
-	S := s.Text()
-	S = reveseString(S)
-	isAble := true
-	for i := 0; i < len(S); {
-		isOk := false
-		for _, st := range candidate {
-			if i+len(st) <= len(S) && S[i:i+len(st)] == st {
-				isOk = true
-				i += len(st)
-			}
-		}
-
-		if !isOk {
-			isAble = false
-			break
-		}
-	}
-
-	if isAble {
-		fmt.Println("YES")
+func getSubIntAbs(a, b int) int {
+	if a < b {
+		return b - a
 	} else {
-		fmt.Println("NO")
+		return a - b
+	}
+}
+
+func main() {
+	N := getIntInput()
+	var x, y, t int
+	for i := 0; i < N; i++ {
+		TXY := getIntInputFromOneLine()
+		T, X, Y := TXY[0], TXY[1], TXY[2]
+		dis_x, dis_y, dif_t := getSubIntAbs(x, X), getSubIntAbs(y, Y), getSubIntAbs(t, T)
+		if dif_t < dis_x+dis_y {
+			fmt.Println("No")
+			os.Exit(0)
+		}
+		if (dif_t-(dis_x+dis_y))%2 == 1 {
+			fmt.Println("No")
+			os.Exit(0)
+		}
+		x, y, t = X, Y, T
 	}
 
+	fmt.Println("Yes")
 }
