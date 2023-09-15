@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -47,4 +48,34 @@ func reveseString(s string) string {
 }
 
 func main() {
+	candidate := []string{"dream", "dreamer", "erase", "eraser"}
+	for i := 0; i < 4; i++ {
+		candidate[i] = reveseString(candidate[i])
+	}
+
+	s.Scan()
+	S := s.Text()
+	S = reveseString(S)
+	isAble := true
+	for i := 0; i < len(S); {
+		isOk := false
+		for _, st := range candidate {
+			if i+len(st) <= len(S) && S[i:i+len(st)] == st {
+				isOk = true
+				i += len(st)
+			}
+		}
+
+		if !isOk {
+			isAble = false
+			break
+		}
+	}
+
+	if isAble {
+		fmt.Println("Yes")
+	} else {
+		fmt.Println("NO")
+	}
+
 }
