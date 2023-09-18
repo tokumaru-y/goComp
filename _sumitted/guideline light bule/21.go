@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -57,22 +58,18 @@ func getSubIntAbs(a, b int) int {
 
 func isOk(m int, hs [][]int) bool {
 	t := len(hs)
-	h := make([]int, t)
+	timeTable := make([]int, t)
 	for i := 0; i < t; i++ {
-		h[i] = hs[i][0]
-		if h[i] > m {
+		h, s := hs[i][0], hs[i][1]
+		if h > m {
 			return false
 		}
+		timeTable[i] = (m - h) / s
 	}
-	for i := 1; i <= t; i++ {
-		var cnt int
-		for j := 0; j < t; j++ {
-			h[j] += hs[j][1]
-			if h[j] > m {
-				cnt++
-			}
-		}
-		if cnt > i {
+
+	sort.Slice(timeTable, func(i, j int) bool { return timeTable[i] < timeTable[j] })
+	for i := 0; i < t; i++ {
+		if timeTable[i] < i {
 			return false
 		}
 	}
@@ -87,7 +84,7 @@ func main() {
 		HS = append(HS, hs)
 	}
 	l := 0
-	r := 1000000000 + 1
+	r := 1000000000000000000 + 1
 	for m := (l + r) / 2; r-l > 1; {
 		if isOk(m, HS) {
 			r = m
