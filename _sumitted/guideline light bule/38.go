@@ -56,30 +56,37 @@ func getSubIntAbs(a, b int) int {
 }
 
 func main() {
-	N := getIntInput()
-	A := getIntInputFromOneLine()
-	dp := [][]int{}
-	for i := 0; i <= N; i++ {
-		tmp := []int{}
-		for j := 0; j <= 20; j++ {
-			tmp = append(tmp, 0)
-
+	Q := getIntInput()
+	for ; Q > 0; Q-- {
+		s.Scan()
+		S := s.Text()
+		s.Scan()
+		T := s.Text()
+		ls := len(S)
+		lt := len(T)
+		dp := [][]int{}
+		for i := 0; i <= ls; i++ {
+			tmp := []int{}
+			for j := 0; j <= lt; j++ {
+				tmp = append(tmp, 0)
+			}
+			dp = append(dp, tmp)
 		}
-		dp = append(dp, tmp)
-	}
-	dp[1][A[0]] = 1
-	for i := 1; i < N; i++ {
-		for j := 0; j <= 20; j++ {
-			if dp[i][j] > 0 {
-				if j-A[i] >= 0 && j-A[i] <= 20 {
-					dp[i+1][j-A[i]] += dp[i][j]
+
+		for i := 0; i < ls; i++ {
+			for j := 0; j < lt; j++ {
+				if S[i] == T[j] {
+					dp[i+1][j+1] = dp[i][j] + 1
 				}
-				if j+A[i] >= 0 && j+A[i] <= 20 {
-					dp[i+1][j+A[i]] += dp[i][j]
+				if dp[i+1][j+1] < dp[i][j+1] {
+					dp[i+1][j+1] = dp[i][j+1]
+				}
+				if dp[i+1][j+1] < dp[i+1][j] {
+					dp[i+1][j+1] = dp[i+1][j]
 				}
 			}
 		}
-	}
 
-	fmt.Println(dp[N][A[N-1]])
+		fmt.Println(dp[ls][lt])
+	}
 }
