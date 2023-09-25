@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -55,4 +56,30 @@ func getSubIntAbs(a, b int) int {
 }
 
 func main() {
+	N := getIntInput()
+	A := getIntInputFromOneLine()
+	dp := [][]int{}
+	for i := 0; i < N; i++ {
+		tmp := []int{}
+		for j := 0; j <= 20; j++ {
+			tmp = append(tmp, 0)
+
+		}
+		dp = append(dp, tmp)
+	}
+	dp[1][A[0]] = 1
+	for i := 1; i < N-1; i++ {
+		for j := 0; j <= 20; j++ {
+			if dp[i][j] > 0 {
+				if j-A[i] >= 0 && j-A[i] <= 20 {
+					dp[i+1][j-A[i]] += dp[i][j]
+				}
+				if j+A[i] >= 0 && j+A[i] <= 20 {
+					dp[i+1][j+A[i]] += dp[i][j]
+				}
+			}
+		}
+	}
+
+	fmt.Println(dp[N-1][A[N-1]])
 }
